@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import com.google.appinventor.components.common.YaVersion;
+import com.google.appinventor.client.explorer.youngandroid.NewUserGetStarted;
+import com.google.appinventor.client.DesignToolbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -683,6 +685,23 @@ public class BlocklyPanel extends HTMLPanel {
     return doQRCode(currentForm, inString);
   }
 
+  public static void switchToBlocksEditor(){
+    Ode.getInstance().getDesignToolbar().switchToBlocksEditor();
+  }
+
+  public static void switchToFormEditor(){
+    Ode.getInstance().getDesignToolbar().switchToFormEditor();
+  }
+  public static void displayDialog(){
+    NewUserGetStarted.displayDialog();
+  }
+  public static String getProjectId(){
+    return String.valueOf(Ode.getInstance().getCurrentYoungAndroidProjectRootNode().getProjectId());
+  }
+  public static boolean inBlocksView(){
+    return Ode.getInstance().getDesignToolbar().inBlocksView();
+  }
+
   // ------------ Native methods ------------
 
   /**
@@ -728,6 +747,18 @@ public class BlocklyPanel extends HTMLPanel {
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getYaVersion());
     $wnd.BlocklyPanel_getBlocksLanguageVersion=
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getBlocksLanguageVersion());
+    $wnd.SwitchToBlocksEditor=
+      $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::switchToBlocksEditor());
+    $wnd.SwitchToFormEditor=
+      $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::switchToFormEditor());
+    $wnd.DisplayDialog=
+      $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::displayDialog());
+    $wnd.GetProjectId=
+      $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getProjectId());
+    $wnd.InBlocksView=
+      $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::inBlocksView());
+    
+
 
   }-*/;
 
@@ -837,6 +868,10 @@ public class BlocklyPanel extends HTMLPanel {
     return $wnd.PREFERRED_COMPANION;
   }-*/;
 
+  public static native void nextStep()/*-{
+    return $wnd.nextStep();
+  }-*/;
+
   static native void setPreferredCompanion(String comp, String url) /*-{
     $wnd.PREFERRED_COMPANION = comp;
     $wnd.COMPANION_UPDATE_URL = url;
@@ -853,5 +888,4 @@ public class BlocklyPanel extends HTMLPanel {
   static native String doQRCode(String formName, String inString) /*-{
     return $wnd.Blocklies[formName].ReplMgr.makeqrcode(inString);
   }-*/;
-
 }
