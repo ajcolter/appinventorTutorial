@@ -94,6 +94,7 @@ public class TopToolbar extends Composite {
   private static final String WIDGET_NAME_LIBRARY = "Library";
   private static final String WIDGET_NAME_GETSTARTED = "GetStarted";
   private static final String WIDGET_NAME_TUTORIALS = "Tutorials";
+  private static final String WIDGET_NAME_WALKTHROUGH = "Walkthrough";
   private static final String WIDGET_NAME_TROUBLESHOOTING = "Troubleshooting";
   private static final String WIDGET_NAME_FORUMS = "Forums";
   private static final String WIDGET_NAME_FEEDBACK = "ReportIssue";
@@ -190,6 +191,8 @@ public class TopToolbar extends Composite {
         new GetStartedAction()));
     helpItems.add(new DropDownItem(WIDGET_NAME_TUTORIALS, MESSAGES.tutorialsLink(),
         new TutorialsAction()));
+    helpItems.add(new DropDownItem(WIDGET_NAME_WALKTHROUGH, MESSAGES.walkthroughLink(),
+        new WalkthroughAction()));
     helpItems.add(new DropDownItem(WIDGET_NAME_TROUBLESHOOTING, MESSAGES.troubleshootingLink(),
         new TroubleShootingAction()));
     helpItems.add(new DropDownItem(WIDGET_NAME_FORUMS, MESSAGES.forumsLink(),
@@ -638,6 +641,13 @@ public class TopToolbar extends Composite {
     @Override
     public void execute() {
       Window.open("http://appinventor.mit.edu/explore/ai2/tutorials", "_ai2", "scrollbars=1");
+    }
+  }
+
+  private static class WalkthroughAction implements Command {
+    @Override
+    public void execute() {
+      ProjectToolbar.getStarted();
     }
   }
 

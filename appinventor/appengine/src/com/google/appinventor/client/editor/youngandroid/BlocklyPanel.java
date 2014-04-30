@@ -427,6 +427,12 @@ public class BlocklyPanel extends HTMLPanel {
     YaBlocksEditor.toggleWarning();
   }
 
+  public static void callNextStep(){
+    OdeLog.log("Before call to do");
+    doNextStep();
+    OdeLog.log("After call to do");
+  }
+
   /**
    * Remember any component instances for this form in case
    * the workspace gets reinitialized later (we get detached from
@@ -747,15 +753,15 @@ public class BlocklyPanel extends HTMLPanel {
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getYaVersion());
     $wnd.BlocklyPanel_getBlocksLanguageVersion=
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getBlocksLanguageVersion());
-    $wnd.SwitchToBlocksEditor=
+    $wnd.BlocklyPanel_SwitchToBlocksEditor=
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::switchToBlocksEditor());
-    $wnd.SwitchToFormEditor=
+    $wnd.BlocklyPanel_SwitchToFormEditor=
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::switchToFormEditor());
-    $wnd.DisplayDialog=
+    $wnd.BlocklyPanel_DisplayDialog=
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::displayDialog());
-    $wnd.GetProjectId=
+    $wnd.BlocklyPanel_GetProjectId=
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getProjectId());
-    $wnd.InBlocksView=
+    $wnd.BlocklyPanel_InBlocksView=
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::inBlocksView());
     
 
@@ -868,8 +874,8 @@ public class BlocklyPanel extends HTMLPanel {
     return $wnd.PREFERRED_COMPANION;
   }-*/;
 
-  public static native void nextStep()/*-{
-    nextStep();
+  public static native void doNextStep()/*-{
+    $wnd.nextStep();
   }-*/;
 
   static native void setPreferredCompanion(String comp, String url) /*-{
