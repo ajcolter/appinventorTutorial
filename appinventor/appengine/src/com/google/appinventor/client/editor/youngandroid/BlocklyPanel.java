@@ -10,6 +10,8 @@ import static com.google.appinventor.client.Ode.MESSAGES;
 import com.google.appinventor.client.DesignToolbar;
 import com.google.appinventor.client.TopToolbar;
 import com.google.appinventor.client.ErrorReporter;
+import com.google.appinventor.client.editor.FileEditor;
+import com.google.appinventor.client.editor.ProjectEditor;
 import com.google.appinventor.client.Ode;
 import com.google.appinventor.client.output.OdeLog;
 import com.google.common.collect.Maps;
@@ -28,6 +30,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.client.explorer.youngandroid.NewUserGetStarted;
 import com.google.appinventor.client.DesignToolbar;
+
+import com.google.appinventor.shared.rpc.project.youngandroid.YoungAndroidSourceNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -429,7 +433,8 @@ public class BlocklyPanel extends HTMLPanel {
 
   public static void callNextStep(){
     String proj_number=BlocklyPanel.getProjectId();
-    doNextStep(proj_number);
+    String currentScreen = Ode.getInstance().getDesignToolbar().getCurrentProject().currentScreen;
+    doNextStep(proj_number+"_"+currentScreen);
   }
 
   /**
@@ -706,17 +711,22 @@ public class BlocklyPanel extends HTMLPanel {
   public static boolean inBlocksView(){
     return Ode.getInstance().getDesignToolbar().inBlocksView();
   }
-  // public static List<String> getComponentNames(){
-  //   String formName=YaBlocksEditor.blocksArea.formName;
-  //   YaBlocksEditor blocksEditor = formToBlocksEditor.get(formName);
-  //   List<String> InstanceNames = blocksEditor.myFormEditor.getComponentNames();
-  //   List<String> ComponentNames = new ArrayList<String>();
-  //   for (int i=0; i<names.length; i++){
-  //     String instanceName = InstanceNames[i];
-  //     ComponentNames.append(blocksEditor.myFormEditor.getComponentInstanceTypeName(formName,instanceName));
-  //   }
-  //   return ComponentNames;
-  // }
+  public static ArrayList<String> getComponentNames(){
+    String currentScreen =  Ode.getInstance().getDesignToolbar().getCurrentProject().currentScreen;
+    
+    ArrayList<String> ComponentNames = new ArrayList<String>();
+    ProjectEditor projectEditor = Ode.getInstance().getDesignToolbar().getCurrentProject().screens.get(currentScreen).formEditor.getProjectEditor();
+    if (projectEditor instanceof YaProjectEditor) {
+        YaProjectEditor yaProjectEditor = (YaProjectEditor) projectEditor;
+        YaFormEditor myFormEditor = yaProjectEditor.getFormFileEditor(Ode.getInstance().getCurrentYoungAndroidSourceNode().getFormName());
+        List<String> InstanceNames = myFormEditor.getComponentNames();
+        for (int i=0; i<InstanceNames.size(); i++){
+          String instanceName = InstanceNames.get(i);
+          ComponentNames.add(myFormEditor.getComponentInstanceTypeName(instanceName));
+        }
+      }
+    return ComponentNames;
+  }
   // ------------ Native methods ------------
 
   /**
@@ -772,8 +782,8 @@ public class BlocklyPanel extends HTMLPanel {
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getProjectId());
     $wnd.BlocklyPanel_InBlocksView=
       $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::inBlocksView());
-    // $wnd.BlocklyPanel_GetComponentNames=
-    //   $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getComponentNames());
+    $wnd.BlocklyPanel_GetComponentNames=
+      $entry(@com.google.appinventor.client.editor.youngandroid.BlocklyPanel::getComponentNames());
     
 
 
@@ -886,7 +896,7 @@ public class BlocklyPanel extends HTMLPanel {
   }-*/;
 
   public static native void doNextStep(String proj_number)/*-{
-    $wnd.nextStep(proj_number);
+    $wnd.Tutorial.nextStep(proj_number);
   }-*/;
 
   static native void setPreferredCompanion(String comp, String url) /*-{

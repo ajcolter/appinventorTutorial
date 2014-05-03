@@ -297,6 +297,7 @@ public class DesignToolbar extends Toolbar {
       new SwitchToBlocksEditorAction().execute();
     }
 
+
   private class SwitchToFormEditorAction implements Command {
     @Override
     public void execute() {
