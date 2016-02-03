@@ -12,12 +12,14 @@ import com.google.appinventor.client.TopToolbar;
 import com.google.appinventor.client.ErrorReporter;
 import com.google.appinventor.client.editor.FileEditor;
 import com.google.appinventor.client.editor.ProjectEditor;
+import com.google.appinventor.client.editor.simple.components.MockComponent;
 import com.google.appinventor.client.Ode;
 import com.google.appinventor.client.output.OdeLog;
 import com.google.common.collect.Maps;
 import com.google.appinventor.components.common.YaVersion;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -33,6 +35,7 @@ import com.google.appinventor.client.DesignToolbar;
 
 import com.google.appinventor.shared.rpc.project.youngandroid.YoungAndroidSourceNode;
 
+import java.lang.String;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -442,8 +445,12 @@ public class BlocklyPanel extends HTMLPanel {
     String currentScreen = Ode.getInstance().getDesignToolbar().getCurrentProject().currentScreen;
     doBackStep(proj_number+"_"+currentScreen);
   }
-  public static void callSetTutorial(){
-    doSetTutorial();
+  public static void callSetTutorial(String tutorialObjectName){
+    doSetTutorial(tutorialObjectName);
+  }
+
+  public static JsArray<NewUserGetStarted.JavaScriptTutorialData> callGetTutorialMetaData() {
+    return getTutorialMetaData();
   }
 
   /**
@@ -912,8 +919,12 @@ public class BlocklyPanel extends HTMLPanel {
     $wnd.Tutorial.backStep(formName);
   }-*/;
 
-  public static native void doSetTutorial()/*-{
-    $wnd.Tutorial.setTutorial("Tutorial_TalkToMe");
+  public static native void doSetTutorial(String tutorialObjectName)/*-{
+    $wnd.Tutorial.setTutorial(tutorialObjectName);
+  }-*/;
+
+  public static native JsArray<NewUserGetStarted.JavaScriptTutorialData> getTutorialMetaData()/*-{
+    return $wnd.Tutorial.getTutorialMetaData();
   }-*/;
 
   static native void setPreferredCompanion(String comp, String url) /*-{
